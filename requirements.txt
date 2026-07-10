@@ -1,0 +1,12 @@
+# RC Durability Prediction Framework - Environment Requirements
+# Python Version: 3.10.14
+# Universidade do Minho
+
+pandas==2.2.2
+joblib==1.4.2
+tensorflow==2.10.0
+scikit-learn==1.5.1
+xgboost==2.1.2
+openpyxl==3.1.5
+xlsxwriter==3.2.9
+catboost==1.2.8
