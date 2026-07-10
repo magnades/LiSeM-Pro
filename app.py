@@ -35,10 +35,9 @@ MODELS_CONFIG = {
         "features": ['M', 'gwt', 'pga', 'lpi'],
         "cat_features": [],
         "class_mapping": {
-            0: "No_Manifestation",
-            1: "Low_Severity",
-            2: "Moderate_Severity",
-            3: "High_Severity"
+            0: "N/Mi",
+            1: "Mo",
+            2: "S",
         }
     },
 
@@ -47,8 +46,8 @@ MODELS_CONFIG = {
         "features": ['M', 'gwt', 'pga', 'lpi', 'liq_man_cat'],
         "cat_features": [],
         "class_mapping": {
-            0: "Non_Liquefiable",
-            1: "Liquefiable"
+            0: "No damage",
+            1: "Damage",
         }
     }
 
