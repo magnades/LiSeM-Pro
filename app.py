@@ -43,13 +43,10 @@ import streamlit as st
 from src.predictor import UniversalPredictor
 
 # ===========================================================================
-# CONFIGURACIÓN MAESTRA DE MODELOS (CON MAPEO DE CLASES)
+# MASTER MODEL CONFIGURATION
 # ===========================================================================
-
-# Inicializar componentes
 MODELS_CONFIG = {
-
-"geotechnical_classifier": {
+    "geotechnical_classifier": {
         "type": "CatBoost",
         "features": ['M', 'gwt', 'pga', 'lpi'],
         "cat_features": [],
@@ -59,7 +56,6 @@ MODELS_CONFIG = {
             2: "S",
         }
     },
-
     "structural_classifier": {
         "type": "CatBoost",
         "features": ['M', 'gwt', 'pga', 'lpi', 'liq_man_cat'],
@@ -69,81 +65,90 @@ MODELS_CONFIG = {
             1: "Damage",
         }
     }
-
 }
+
 MODELS_DIR = "models"
 predictor = UniversalPredictor(models_folder=MODELS_DIR)
 
-# Configuración de página de Streamlit
-st.set_page_config(page_title="Framework Universal de Predicción", layout="wide", page_icon="🏗️")
+# Streamlit Page Setup
+st.set_page_config(page_title="Universal Prediction Framework", layout="wide", page_icon="🏗️")
 
 st.title("🏗️ Liquefaction Severity Manifestation Probability: LiSeM-Pro")
 st.caption("Developed by **Juan Carlos Pantoja**")
 
-# Sidebar para control
-st.sidebar.header("⚙️ Configuración")
-model_id = st.sidebar.selectbox("Seleccione el Modelo para Analizar:", list(MODELS_CONFIG.keys()))
+# Sidebar Controls
+st.sidebar.header("⚙️ Configuration")
+model_id = st.sidebar.selectbox("Select Model to Analyze:", list(MODELS_CONFIG.keys()))
 
 model_info = MODELS_CONFIG[model_id]
-st.sidebar.info(f"**Tipo de Framework:** {model_info['type']}")
+st.sidebar.info(f"**Framework Type:** {model_info['type']}")
 
-# Mostrar las clases mapeadas en el Sidebar para transparencia del usuario
-with st.sidebar.expander("🏷️ Clases Configuradas"):
+# Display Target Classes in Sidebar
+with st.sidebar.expander("🏷️ Configured Classes"):
     for code, label in model_info["class_mapping"].items():
         st.write(f"**{code}**: {label}")
 
-# --- PASO 1: GENERACIÓN AUTOMÁTICA DE PLANTILLAS ---
-st.header("1. Descargar Esquema del Modelo")
-st.write(
-    f"Descargue la plantilla de Excel vacía estructurada con los requerimientos exactos de columnas para el modelo **{model_id}**.")
+# Shortened Scientific Disclaimer in Sidebar
+with st.sidebar.expander("ℹ️ Scientific Disclaimer", expanded=True):
+    st.markdown(
+        """
+        **Educational & Research Tool Only**  
+        This app is part of an exploratory doctoral framework at *Universidade do Minho* for screening liquefaction-related vulnerabilities.
 
-# Creamos el dataframe vacío con los headers del modelo
+        Outputs represent preliminary trends and **must not** be used as a substitute for site-specific geotechnical, structural, or professional engineering investigations.
+        """
+    )
+
+# --- STEP 1: AUTOMATIC TEMPLATE GENERATION ---
+st.header("1. Download Model Template")
+st.write(
+    f"Download the empty Excel template structured with the exact column schema required for the **{model_id}** model.")
+
+# Create empty DataFrame with required feature headers
 df_template = pd.DataFrame(columns=model_info["features"])
 
-# Escribir a memoria (BytesIO) para evitar conflictos de escritura en el servidor
+# Write to memory buffer (BytesIO)
 template_buffer = io.BytesIO()
 with pd.ExcelWriter(template_buffer, engine="xlsxwriter") as writer:
     df_template.to_excel(writer, index=False, sheet_name=str(model_id))
 template_buffer.seek(0)
 
 st.download_button(
-    label="📥 Descargar Plantilla Excel",
+    label="📥 Download Excel Template",
     data=template_buffer,
-    file_name=f"plantilla_modelo_{model_id}.xlsx",
+    file_name=f"template_model_{model_id}.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
 
 st.markdown("---")
 
-# --- PASO 2: CARGA DE DATOS Y PREDICCIÓN ---
-st.header("2. Cargar Datos y Procesar Inferencias")
-uploaded_file = st.file_uploader("Suba la plantilla Excel completada:", type=["xlsx"])
+# --- STEP 2: DATA UPLOAD AND INFERENCE ---
+st.header("2. Upload Data and Run Predictions")
+uploaded_file = st.file_uploader("Upload your completed Excel template here:", type=["xlsx"])
 
 if uploaded_file is not None:
     try:
-        # Cargar datos subidos por el usuario
+        # Load user-submitted file
         df_input = pd.read_excel(uploaded_file)
-        st.success("✅ Archivo cargado exitosamente.")
+        st.success("✅ File uploaded successfully.")
 
-        # Validación de Columnas
+        # Feature Column Validation
         missing_cols = [col for col in model_info["features"] if col not in df_input.columns]
 
         if missing_cols:
-            st.error(f"🚨 Error: Al archivo le faltan las siguientes columnas obligatorias: {missing_cols}")
+            st.error(f"🚨 Error: The uploaded file is missing the following required columns: {missing_cols}")
         else:
-            st.subheader("👀 Vista Previa de Datos de Entrada")
+            st.subheader("👀 Input Data Preview")
             st.dataframe(df_input.head(5))
 
-            if st.button("🚀 Ejecutar Predicciones por Lote"):
-                with st.spinner("Procesando datos a través de UniversalPredictor..."):
+            if st.button("🚀 Run Batch Predictions"):
+                with st.spinner("Processing data through UniversalPredictor..."):
 
-                    # Extraer solo las columnas ordenadas que el modelo espera
+                    # Slice out only the features required by the model in the precise order
                     X_data = df_input[model_info["features"]]
-
-                    # Llamar al predictor universal pasándole parámetros opcionales de categóricas si es CatBoost
                     cat_f = model_info.get("cat_features", None)
 
-                    # Modificado para recibir tanto la predicción numérica como el DataFrame de probabilidades
+                    # Extract discrete predictions and probability DataFrame
                     results, df_probs = predictor.predict(
                         model_name=model_id,
                         model_type=model_info["type"],
@@ -151,22 +156,20 @@ if uploaded_file is not None:
                         cat_features=cat_f
                     )
 
-                    # Copiar entradas para estructurar la salida
+                    # Build output DataFrame
                     df_output = df_input.copy()
 
-                    # 1. Asignar Predicción numérica original
+                    # 1. Store original numerical code
                     df_output["Model_Prediction_Code"] = results
 
-                    # 2. Mapear los índices numéricos a las etiquetas legibles configuradas
+                    # 2. Map indices to structured text labels
                     mapping = model_info["class_mapping"]
                     df_output["Model_Prediction_Label"] = pd.Series(results).map(mapping).values
 
-                    # 3. Renombrar columnas usando el mapeo de clases y concatenar
+                    # 3. Rename probability columns and concatenate
                     if df_probs is not None:
-                        # Renombrar columnas dinámicas
                         new_col_names = {}
                         for col in df_probs.columns:
-                            # Extraer el índice numérico final del nombre de la columna
                             idx = int(col.split("_")[-1])
                             if idx in mapping:
                                 new_col_names[col] = f"Prob_{mapping[idx]}"
@@ -174,27 +177,25 @@ if uploaded_file is not None:
                                 new_col_names[col] = col
 
                         df_probs = df_probs.rename(columns=new_col_names)
-
-                        # Concatenación horizontal limpia reseteando índices
                         df_output = pd.concat([df_output.reset_index(drop=True), df_probs.reset_index(drop=True)],
                                               axis=1)
 
-                    st.success("🎉 ¡Procesamiento completado con éxito!")
-                    st.subheader("📊 Muestra de Resultados con Predicciones")
+                    st.success("🎉 Processing completed successfully!")
+                    st.subheader("📊 Output Sample (Features + Predictions)")
                     st.dataframe(df_output.head(5))
 
-                    # Crear el archivo Excel de descarga final en memoria
+                    # Build exportable Excel binary file in memory
                     output_buffer = io.BytesIO()
                     with pd.ExcelWriter(output_buffer, engine="xlsxwriter") as writer:
-                        df_output.to_excel(writer, index=False, sheet_name="Resultados_Prediccion")
+                        df_output.to_excel(writer, index=False, sheet_name="Prediction_Results")
                     output_buffer.seek(0)
 
                     st.download_button(
-                        label="💾 Descargar Resultados (.XLSX)",
+                        label="💾 Download Results (.XLSX)",
                         data=output_buffer,
-                        file_name=f"resultados_modelo_{model_id}.xlsx",
+                        file_name=f"results_model_{model_id}.xlsx",
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     )
 
     except Exception as e:
-        st.error(f"💥 Error crítico en el pipeline de ejecución: {e}")
+        st.error(f"💥 Critical error inside the execution pipeline: {e}")
