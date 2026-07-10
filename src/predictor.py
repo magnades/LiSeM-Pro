@@ -18,9 +18,9 @@
 
 import os
 import joblib
-import pandas as pd
-import numpy as np
-from tensorflow.keras.models import load_model
+# import pandas as pd
+# import numpy as np
+# from tensorflow.keras.models import load_model
 from catboost import CatBoostClassifier, Pool
 
 class UniversalPredictor:
@@ -37,15 +37,15 @@ class UniversalPredictor:
                     return joblib.load(skl_path), "sklearn"
                 raise FileNotFoundError(f"No pkl found for {model_name}")
 
-            case "Tensorflow":
-                tf_model_path = os.path.join(self.models_folder, f"model_{model_name}.keras")
-                tf_prep_path = os.path.join(self.models_folder, f"preprocessor_{model_name}.pkl")
-                if os.path.exists(tf_model_path) and os.path.exists(tf_prep_path):
-                    print(f"--- Loading TensorFlow MLP for Model: {model_name} ---")
-                    model = load_model(tf_model_path)
-                    preprocessor = joblib.load(tf_prep_path)
-                    return {"model": model, "preprocessor": preprocessor}, "tensorflow"
-                raise FileNotFoundError(f"Missing keras/preprocessor files for {model_name}")
+            # case "Tensorflow":
+            #     tf_model_path = os.path.join(self.models_folder, f"model_{model_name}.keras")
+            #     tf_prep_path = os.path.join(self.models_folder, f"preprocessor_{model_name}.pkl")
+            #     if os.path.exists(tf_model_path) and os.path.exists(tf_prep_path):
+            #         print(f"--- Loading TensorFlow MLP for Model: {model_name} ---")
+            #         model = load_model(tf_model_path)
+            #         preprocessor = joblib.load(tf_prep_path)
+            #         return {"model": model, "preprocessor": preprocessor}, "tensorflow"
+            #     raise FileNotFoundError(f"Missing keras/preprocessor files for {model_name}")
 
             case "CatBoost": 
                 cb_path = os.path.join(self.models_folder, f"model_{model_name}.cbm")
@@ -71,10 +71,10 @@ class UniversalPredictor:
         if framework == "sklearn":
             return model_obj.predict(data)
         
-        elif framework == "tensorflow":
-            processed_data = model_obj["preprocessor"].transform(data)
-            predictions = model_obj["model"].predict(processed_data, verbose=0)
-            return predictions.flatten()
+        # elif framework == "tensorflow":
+        #     processed_data = model_obj["preprocessor"].transform(data)
+        #     predictions = model_obj["model"].predict(processed_data, verbose=0)
+        #     return predictions.flatten()
             
         elif framework == "catboost":  
             # Asegurar tratamiento de nulos básicos en categóricas antes del Pool
