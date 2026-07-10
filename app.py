@@ -101,12 +101,12 @@ with st.sidebar.expander("ℹ️ Scientific Disclaimer", expanded=True):
         Liquefaction Vulnerability Module.
 
         ---
-
-        **DEVELOPED AND IMPLEMENTED BY:**  
-        * **Juan Carlos Pantoja** (ML Modeling, Scripting, and Application Development)
-
+        
         **SCIENTIFIC METHODOLOGY:**  
         * **Alejandro Cruz Escobar** (Doctoral Researcher, Civil Engineering)
+
+        **DEVELOPED AND IMPLEMENTED BY:**  
+        * **Juan Carlos Pantoja** (ML Modeling, Scripting, and Application Development)        
 
         **PROJECT SUPERVISION:**  
         * **Professor Paulo B. Lourenço**  
