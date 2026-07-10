@@ -88,11 +88,37 @@ with st.sidebar.expander("🏷️ Configured Classes"):
     for code, label in model_info["class_mapping"].items():
         st.write(f"**{code}**: {label}")
 
-# Shortened Scientific Disclaimer in Sidebar
 with st.sidebar.expander("ℹ️ Scientific Disclaimer", expanded=True):
     st.markdown(
         """
-        **Educational & Research Tool Only**  
+        **PROJECT:**  
+        Seismic vulnerability assessment model for urban centres prone to liquefaction: Insights into a multi-hazard approach.
+
+        **APPLICATION:**  
+        Surface Liquefaction manifestation severity and probability classifier.
+
+        **MODULE:**  
+        Liquefaction Vulnerability Module.
+
+        ---
+
+        **DEVELOPED AND IMPLEMENTED BY:**  
+        * **Juan Carlos Pantoja** (ML Modeling, Scripting, and Application Development)
+
+        **SCIENTIFIC METHODOLOGY:**  
+        * **Alejandro Cruz Escobar** (Doctoral Researcher, Civil Engineering)
+
+        **PROJECT SUPERVISION:**  
+        * **Professor Paulo B. Lourenço**  
+        * **Doctor Shaghayegh Karimzadeh**  
+        * **Doctor Nicola Chieffo**  
+
+        **INSTITUTION:**  
+        Universidade do Minho  
+
+        ---
+
+        ⚠️ **Educational & Research Tool Only**  
         This app is part of an exploratory doctoral framework at *Universidade do Minho* for screening liquefaction-related vulnerabilities.
 
         Outputs represent preliminary trends and **must not** be used as a substitute for site-specific geotechnical, structural, or professional engineering investigations.
