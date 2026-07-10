@@ -1,19 +1,40 @@
 # ===========================================================================
-# PROJECT: 
-# MODULE: 
+# PROJECT: Seismic vulnerability assessment model for urban centres prone to
+#          liquefaction: Insights into a multi-hazard approach
+# APPLICATION: Surface Liquefaction manifestation severity and probability classifier
+# MODULE: Liquefaction Vulnerability Module
 # ---------------------------------------------------------------------------
 # DEVELOPED AND IMPLEMENTED BY: Juan Carlos Pantoja
 # (ML Modeling, Scripting, and Application Development)
 #
-# TECHNICAL REVIEW: 
-# PROJECT SUPERVISION: 
+# SCIENTIFIC METHODOLOGY:
+# Alejandro Cruz Escobar
+# Doctoral Researcher, Civil Engineering
+# Universidade do Minho
+#
+# PROJECT SUPERVISION:
+# Professor Paulo B. Lourenço
+# Doctor Shaghayegh Karimzadeh
+# Doctor Nicola Chieffo
 # INSTITUTION: Universidade do Minho
 # ---------------------------------------------------------------------------
 # SCIENTIFIC DISCLAIMER:
-# These models are part of an exploratory study. This framework is designed
-# for incremental refinement as more sensor data becomes available. Results
-# represent preliminary trends and should be interpreted within the specific
-# research scope of the Task 4 Performance Evaluation report.
+# This application is part of an exploratory doctoral research framework for
+# assessing liquefaction-related vulnerability in urban areas. The implemented
+# models are intended for research, methodological development, and preliminary
+# screening purposes.
+#
+# The results should not be interpreted as definitive site-specific predictions
+# of liquefaction damage or as a substitute for detailed geotechnical,
+# structural, or engineering investigations. Model outputs depend on the quality,
+# representativeness, and range of the input data used for training and
+# calibration.
+#
+# The framework is designed for incremental refinement as additional
+# post-earthquake liquefaction observations and building damage data become
+# available. Therefore, the results should be interpreted within the scientific
+# scope of Chapter 3, "Methodological Framework: Vulnerability Modules and
+# Unified multi-hazard integration", of the doctoral thesis.
 # ===========================================================================
 
 import pandas as pd

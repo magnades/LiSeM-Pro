@@ -1,19 +1,40 @@
 # ===========================================================================
-# PROJECT: Liquefaction Severity Manifestation Probability: LiSeM-Pro
-# MODULE: Machine Learning Prediction Framework
+# PROJECT: Seismic vulnerability assessment model for urban centres prone to
+#          liquefaction: Insights into a multi-hazard approach
+# APPLICATION: Surface Liquefaction manifestation severity and probability classifier
+# MODULE: Liquefaction Vulnerability Module
 # ---------------------------------------------------------------------------
 # DEVELOPED AND IMPLEMENTED BY: Juan Carlos Pantoja
 # (ML Modeling, Scripting, and Application Development)
 #
-# TECHNICAL REVIEW:
+# SCIENTIFIC METHODOLOGY:
+# Alejandro Cruz Escobar
+# Doctoral Researcher, Civil Engineering
+# Universidade do Minho
+#
 # PROJECT SUPERVISION:
+# Professor Paulo B. Lourenço
+# Doctor Shaghayegh Karimzadeh
+# Doctor Nicola Chieffo
 # INSTITUTION: Universidade do Minho
 # ---------------------------------------------------------------------------
 # SCIENTIFIC DISCLAIMER:
-# These models are part of an exploratory study. This framework is designed
-# for incremental refinement as more sensor data becomes available. Results
-# represent preliminary trends and should be interpreted within the specific
-# research scope of the Task 4 Performance Evaluation report.
+# This application is part of an exploratory doctoral research framework for
+# assessing liquefaction-related vulnerability in urban areas. The implemented
+# models are intended for research, methodological development, and preliminary
+# screening purposes.
+#
+# The results should not be interpreted as definitive site-specific predictions
+# of liquefaction damage or as a substitute for detailed geotechnical,
+# structural, or engineering investigations. Model outputs depend on the quality,
+# representativeness, and range of the input data used for training and
+# calibration.
+#
+# The framework is designed for incremental refinement as additional
+# post-earthquake liquefaction observations and building damage data become
+# available. Therefore, the results should be interpreted within the scientific
+# scope of Chapter 3, "Methodological Framework: Vulnerability Modules and
+# Unified multi-hazard integration", of the doctoral thesis.
 # ===========================================================================
 
 import io
@@ -24,8 +45,6 @@ from src.predictor import UniversalPredictor
 # ===========================================================================
 # CONFIGURACIÓN MAESTRA DE MODELOS (CON MAPEO DE CLASES)
 # ===========================================================================
-# Aquí defines qué significa el índice '0', '1', etc., para cada modelo.
-# Se adapta automáticamente tanto si el problema es binario como multiclase.
 
 # Inicializar componentes
 MODELS_CONFIG = {
@@ -142,12 +161,12 @@ if uploaded_file is not None:
                     mapping = model_info["class_mapping"]
                     df_output["Model_Prediction_Label"] = pd.Series(results).map(mapping).values
 
-                    # 3. Si vienen probabilidades, renombrar columnas usando el mapeo de clases y concatenar
+                    # 3. Renombrar columnas usando el mapeo de clases y concatenar
                     if df_probs is not None:
-                        # Renombrar columnas dinámicas 'Prob_Clase_0' -> 'Prob_No_Manifestation'
+                        # Renombrar columnas dinámicas
                         new_col_names = {}
                         for col in df_probs.columns:
-                            # Extraer el índice numérico final del nombre de la columna (ej: de 'Prob_Clase_0' toma '0')
+                            # Extraer el índice numérico final del nombre de la columna
                             idx = int(col.split("_")[-1])
                             if idx in mapping:
                                 new_col_names[col] = f"Prob_{mapping[idx]}"
