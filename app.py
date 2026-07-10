@@ -27,7 +27,7 @@ from src.predictor import UniversalPredictor
 # ===========================================================================
 MODELS_CONFIG = {
 
-    "Structural_Classifier": {
+    "structural_classifier": {
         "type": "CatBoost",
         "features": ['M', 'gwt', 'pga', 'lpi', 'liq_man_cat'],  
         "cat_features": ['Tipo_Suelo', 'Zona']                         
