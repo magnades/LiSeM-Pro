@@ -26,11 +26,13 @@ from src.predictor import UniversalPredictor
 # ===========================================================================
 # Aquí defines qué significa el índice '0', '1', etc., para cada modelo.
 # Se adapta automáticamente tanto si el problema es binario como multiclase.
+
+# Inicializar componentes
 MODELS_CONFIG = {
 
-    "structural_classifier": {
+"geotechnical_classifier": {
         "type": "CatBoost",
-        "features": ['M', 'gwt', 'pga', 'lpi', 'liq_man_cat'],
+        "features": ['M', 'gwt', 'pga', 'lpi'],
         "cat_features": [],
         "class_mapping": {
             0: "No_Manifestation",
@@ -39,18 +41,18 @@ MODELS_CONFIG = {
             3: "High_Severity"
         }
     },
-    "geotechnical_classifier": {
+
+    "structural_classifier": {
         "type": "CatBoost",
-        "features": ['M', 'gwt', 'pga', 'lpi'],
+        "features": ['M', 'gwt', 'pga', 'lpi', 'liq_man_cat'],
         "cat_features": [],
         "class_mapping": {
             0: "Non_Liquefiable",
             1: "Liquefiable"
         }
     }
-}
 
-# Inicializar componentes
+}
 MODELS_DIR = "models"
 predictor = UniversalPredictor(models_folder=MODELS_DIR)
 
