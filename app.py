@@ -30,7 +30,7 @@ MODELS_CONFIG = {
     "structural_classifier": {
         "type": "CatBoost",
         "features": ['M', 'gwt', 'pga', 'lpi', 'liq_man_cat'],  
-        "cat_features": ['Tipo_Suelo', 'Zona']                         
+        "cat_features": []
     },
     "geotechnical_classifier": {
         "type": "CatBoost",
