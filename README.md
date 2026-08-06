@@ -28,7 +28,7 @@ The framework includes two CatBoost classification models:
     *   1: Damage.
 *   **Predictors Used:** Earthquake magnitude (M), Peak ground acceleration (PGA), Groundwater-table depth (GWT), Liquefaction potential index (LPI), and Observed SLM severity class.
 *   **Data Background:** Developed using a smaller Italy–Chile subset containing 130 observations and evaluated on a 26-site hold-out test set.
-*   **Usage Note:** Because Model 4 uses observed SLM severity as an input, its current implementation is primarily suitable for post-earthquake or conditional damage assessment. For prospective applications, the observed SLM input must be replaced with SLM probabilities or classifications obtained from Model 3 or another independently validated manifestation model[cite: 2].
+*   **Usage Note:** Because Model 4 uses observed SLM severity as an input, its current implementation is primarily suitable for post-earthquake or conditional damage assessment. For prospective applications, the observed SLM input must be replaced with SLM probabilities or classifications obtained from Model 3 or another independently validated manifestation model.
 
 ## 3. File Structure & Application Usage
 
@@ -74,31 +74,31 @@ The framework features a user-friendly interface powered by Streamlit, designed 
 
 ## 4. Credits & Attribution
 
-**Developed and Implemented by:** Juan Carlos Pantoja (ML Modeling, Scripting, and Application Development)[cite: 2].
+**Developed and Implemented by:** Juan Carlos Pantoja (ML Modeling, Scripting, and Application Development).
 
-**Scientific Methodology:** Alejandro Cruz Escobar (Doctoral Researcher, Civil Engineering, Universidade do Minho)[cite: 2].
+**Scientific Methodology:** Alejandro Cruz Escobar (Doctoral Researcher, Civil Engineering, Universidade do Minho).
 
-**Technical Review:** Dr. Shaghayegh Karimzadeh[cite: 2].
+**Technical Review:** Dr. Shaghayegh Karimzadeh.
 
-**Project Supervision:** Prof. Paulo B. Lourenço[cite: 2] & Dr. Nicola Chieffo.
+**Project Supervision:** Prof. Paulo B. Lourenço & Dr. Nicola Chieffo.
 
-**Institution:** Universidade do Minho[cite: 2].
+**Institution:** Universidade do Minho.
 
 ## 5. Scientific Disclaimer & License
 
-**Intended Use:** This software is a research-oriented demonstration tool and implementation of machine-learning models intended for urban-scale screening, methodological reproduction, and academic research applications. It is not intended for real-world engineering design, decision-making, or risk assessment. It should not be used as a substitute for site-specific geotechnical investigations, structural inspections, liquefaction-triggering analyses, or detailed engineering assessment[cite: 2]. All engineering decisions remain the responsibility of qualified professionals[cite: 2].
+**Intended Use:** This software is a research-oriented demonstration tool and implementation of machine-learning models intended for urban-scale screening, methodological reproduction, and academic research applications. It is not intended for real-world engineering design, decision-making, or risk assessment. It should not be used as a substitute for site-specific geotechnical investigations, structural inspections, liquefaction-triggering analyses, or detailed engineering assessment. All engineering decisions remain the responsibility of qualified professionals.
 
 ### Model Limitations & Validity
 
-**Domain Validity:** Predictions are valid only within the ranges of earthquake magnitude, peak ground acceleration, groundwater-table depth, LPI, SLM severity, and damage conditions represented in the development databases[cite: 2]. Predictions outside the calibration and training domains should be interpreted with caution[cite: 2].
+**Domain Validity:** Predictions are valid only within the ranges of earthquake magnitude, peak ground acceleration, groundwater-table depth, LPI, SLM severity, and damage conditions represented in the development databases. Predictions outside the calibration and training domains should be interpreted with caution.
 
-**Model 3 Uncertainty:** This model was developed from a highly imbalanced reconnaissance database dominated by "no or minor" SLM observations[cite: 2]. Predicting rare moderate and severe manifestations remains subject to greater uncertainty[cite: 2].
+**Model 3 Uncertainty:** This model was developed from a highly imbalanced reconnaissance database dominated by "no or minor" SLM observations. Predicting rare moderate and severe manifestations remains subject to greater uncertainty.
 
-**Model 4 Limitations:** Performance estimates are affected by a limited sample size and differences in the spatial resolution of damage labels[cite: 2]. The reported performance on the 26-observation hold-out set should be interpreted as an internal evaluation rather than broad external validation[cite: 2].
+**Model 4 Limitations:** Performance estimates are affected by a limited sample size and differences in the spatial resolution of damage labels. The reported performance on the 26-observation hold-out set should be interpreted as an internal evaluation rather than broad external validation.
 
-**Data Interdependence:** For the Chilean dataset, LPI values were estimated using field-observed SLM severity[cite: 2]. The resulting LPI values are not statistically independent of the SLM target, which may produce optimistic performance estimates for Chilean observations in analyses involving SLM classification[cite: 2].
+**Data Interdependence:** For the Chilean dataset, LPI values were estimated using field-observed SLM severity. The resulting LPI values are not statistically independent of the SLM target, which may produce optimistic performance estimates for Chilean observations in analyses involving SLM classificatio.
 
-**Regional Transferability:** The models were trained using harmonised datasets combining observations from different earthquakes, regions, and data-collection procedures[cite: 2]. Their direct transfer to other regions or building stocks has not been independently demonstrated[cite: 2]. Regional compatibility should be assessed before application, and retraining may be required when local data is available[cite: 2].
+**Regional Transferability:** The models were trained using harmonised datasets combining observations from different earthquakes, regions, and data-collection procedures. Their direct transfer to other regions or building stocks has not been independently demonstrated. Regional compatibility should be assessed before application, and retraining may be required when local data is available.
 
 **Liability Waiver:** This application and its contents are provided "as is", without warranty of any kind, express or implied. The developers disclaim all liability for any direct, indirect, or consequential loss or damage arising from the use of this tool. By using this application, you acknowledge that no contractual, professional, or legal relationship is established between you and the authors, affiliated institutions, or contributors.
 
